@@ -3,6 +3,7 @@ networks:
   welbex-network:
     driver: bridge
     external: true
+    name: welbex-network
 
 services:
   web:
