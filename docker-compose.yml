@@ -1,9 +1,9 @@
 version: "3.8"
 networks:
-  welbex-network:
+  alsinet:
     driver: bridge
     external: true
-    name: welbex-network
+    name: alsinet
 
 services:
   web:
@@ -18,7 +18,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - welbex-network
+      - alsinet
 
   postgres:
     image: postgres:15
@@ -31,7 +31,7 @@ services:
     ports:
        - 15432:5432
     networks:
-      - welbex-network
+      - alsinet
 
 volumes:
   db-data:
