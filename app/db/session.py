@@ -11,7 +11,7 @@ database_url = URL.create(
     password=config.postgres_password,
     host=config.database_host,
     port=config.database_port,
-    database=config.postgres_name,
+    database=config.postgres_db,
 )
 
 

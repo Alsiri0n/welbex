@@ -23,7 +23,7 @@ section = config.config_ini_section
 config.set_section_option(section, "DB_USER", os.getenv("POSTGRES_USER"))
 config.set_section_option(section, "DB_PASS", os.getenv("POSTGRES_PASSWORD"))
 config.set_section_option(section, "DB_HOST", os.getenv("DATABASE_HOST"))
-config.set_section_option(section, "DB_NAME", os.getenv("POSTGRES_NAME"))
+config.set_section_option(section, "DB_NAME", os.getenv("POSTGRES_DB"))
 
 
 # Interpret the config file for Python logging.
