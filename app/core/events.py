@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.init_db import init_db
-from app.db.session import Session, engine
+from app.db.session import engine
 
 
 def create_start_app_handler(db: AsyncSession) -> None:

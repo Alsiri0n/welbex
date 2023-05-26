@@ -1,4 +1,4 @@
-from sqlalchemy import select, delete, Result, update
+from sqlalchemy import select, Result, update
 from sqlalchemy.orm import subqueryload
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -51,5 +51,6 @@ class CRUDCargo:
         if result:
             cargos = [r for r in result.scalars()]
         return cargos
+
 
 cargo = CRUDCargo()

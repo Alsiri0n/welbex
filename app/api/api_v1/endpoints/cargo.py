@@ -27,11 +27,6 @@ async def all_cargos(*, db: AsyncSession = Depends(deps.get_db)):
 
 @router.get("/{id_}", response_model=schemas.CargoWithDistanceTruck)
 async def get_cargo_info(*, db: AsyncSession = Depends(deps.get_db), id_: int):
-    # Defaul get
-    # cargo = await crud.cargo.get(db, id_)
-    # if not cargo:
-    #     raise HTTPException(status_code=404, detail="Cargo not found")
-    # return cargo
     cargo = await crud.cargo.get(db, id_)
     if not cargo:
         raise HTTPException(status_code=404, detail="Cargo not found")
@@ -49,7 +44,6 @@ async def get_cargo_info(*, db: AsyncSession = Depends(deps.get_db), id_: int):
         trucks=information
     )
     return cargo
-
 
 
 @router.post("/", response_model=schemas.Cargo)
@@ -100,5 +94,3 @@ async def delete_cargo(*, db: AsyncSession = Depends(deps.get_db), id_: int):
         raise HTTPException(status_code=404, detail="Cargo not found")
     cargo = await crud.cargo.remove(db, cargo)
     return cargo
-
-

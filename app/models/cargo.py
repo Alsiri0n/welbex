@@ -3,7 +3,7 @@ from sqlalchemy import BigInteger, Column, Text, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
-from app.schemas.cargo import CargoBase
+
 
 if TYPE_CHECKING:
     from .location import LocationModel
@@ -20,4 +20,3 @@ class CargoModel(Base):
 
     pickup = relationship("LocationModel", back_populates="cargos_pickup", foreign_keys="[CargoModel.pickup_id]")
     delivery = relationship("LocationModel", back_populates="cargos_delivery", foreign_keys="[CargoModel.delivery_id]")
-

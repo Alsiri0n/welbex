@@ -1,11 +1,10 @@
 from random import randint
-from geopy.distance import geodesic as GD
-from sqlalchemy import func, select, update, Result, and_
+from geopy.distance import geodesic as gd
+from sqlalchemy import func, select, update, Result
 from sqlalchemy.orm import subqueryload
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.truck import TruckModel
-from app.models.location import LocationModel
-from app.schemas.truck import TruckBase, TruckForInformation
+from app.schemas.truck import TruckForInformation
 
 
 class CRUDTruck:
@@ -54,10 +53,9 @@ class CRUDTruck:
         all_trucks = await self._get_all_trucks(db)
         for cur_truck in all_trucks:
             truck_coord = (cur_truck.location.lat, cur_truck.location.lng)
-            if GD(pickup_coord, truck_coord).miles <= miles:
+            if gd(pickup_coord, truck_coord).miles <= miles:
                 qnt += 1
         return qnt
-
 
     async def get_distance(self, db: AsyncSession, lat: float, lng: float) -> list[TruckForInformation]:
         cargo_coord = (lat, lng)
@@ -65,11 +63,9 @@ class CRUDTruck:
         data: list[TruckForInformation] = []
         for cur_truck in all_trucks:
             cur_truck_coord = (cur_truck.location.lat, cur_truck.location.lng)
-            cur_distance = int(GD(cargo_coord, cur_truck_coord).miles)
+            cur_distance = int(gd(cargo_coord, cur_truck_coord).miles)
             data.append(TruckForInformation(number=cur_truck.number, distance=cur_distance))
         return data
-
-
 
 
 truck = CRUDTruck()

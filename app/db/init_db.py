@@ -1,8 +1,8 @@
 import csv
 from app.db.session import Session
-from app import crud, schemas
+from app import crud
 from app.schemas.location import LocationSchema
-# from app.schemas.truck import TruckSchema
+
 
 # Init start data
 async def init_db(db: Session) -> None:
