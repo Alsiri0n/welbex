@@ -13,8 +13,8 @@ services:
     restart: unless-stopped
     ports:
       - 8000:8000
-    volumes:
-      - .env:/usr/src/app/welbex/.env
+    env_file:
+      - .env
     depends_on:
       - postgres
     networks:

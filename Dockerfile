@@ -1,6 +1,6 @@
 FROM python:3.11
 RUN useradd welbex
-RUN mkdir -p /usr/src/app/welbex/app/
+RUN mkdir -p /usr/src/app/welbex/
 WORKDIR /usr/src/app/welbex
 COPY . /usr/src/app/welbex/
 RUN pip3 install poetry
