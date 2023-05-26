@@ -11,10 +11,7 @@ pipeline {
                     extensions: scm.extensions + [[$class: 'SubmoduleOption', parentCredentials: true]],
                     userRemoteConfigs: scm.userRemoteConfigs
                 ])
-                sh "echo 123"
-                sh "pwd"
-                sh "echo 345"
-                sh 'sudo cp . /root/welbex'
+                sh 'sudo cp -rvf . /root/welbex'
             }
         }
         stage('Build') {
