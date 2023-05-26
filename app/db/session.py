@@ -7,11 +7,11 @@ config = get_settings()
 
 database_url = URL.create(
     drivername="postgresql+asyncpg",
-    username=config.database_user,
-    password=config.database_password,
+    username=config.postgres_user,
+    password=config.postgres_password,
     host=config.database_host,
     port=config.database_port,
-    database=config.database_name,
+    database=config.postgres_name,
 )
 
 

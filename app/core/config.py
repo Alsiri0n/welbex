@@ -6,9 +6,9 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     database_host: str
     database_port: int
-    database_user: str
-    database_password: str
-    database_name: str
+    postgres_user: str
+    postgres_password: str
+    postgres_name: str
 
     class Config:
         env_file = ".env.prod"
