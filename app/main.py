@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from app.crud.views import api
-from app.core.config import get_settings
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.api.api_v1.api import api_router
+
 
 from app.core.events import create_start_app_handler, create_stop_app_handler
 
@@ -15,7 +16,7 @@ logger = logging.getLogger(__name__)
 def init_app():
 
     cur_app = FastAPI()
-    db = Session()
+    db: AsyncSession = Session()
 
     cur_app.add_event_handler(
         "startup",
@@ -26,7 +27,7 @@ def init_app():
         create_stop_app_handler(db),
     )
 
-    cur_app.include_router(api)
+    cur_app.include_router(api_router)
 
     return cur_app
 

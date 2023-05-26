@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
     from .cargo import CargoSchema
-    from .truck import TruckSchema
+    from .truck import TruckBase
 
 
 class LocationSchema(BaseModel):

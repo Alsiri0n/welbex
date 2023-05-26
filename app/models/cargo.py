@@ -20,3 +20,4 @@ class CargoModel(Base):
 
     pickup = relationship("LocationModel", back_populates="cargos_pickup", foreign_keys="[CargoModel.pickup_id]")
     delivery = relationship("LocationModel", back_populates="cargos_delivery", foreign_keys="[CargoModel.delivery_id]")
+

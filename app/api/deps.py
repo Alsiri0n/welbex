@@ -11,9 +11,9 @@ from app.core.config import get_settings
 from app.db.session import Session
 
 
-def get_db() -> Generator:
+async def get_db() -> Generator:
     try:
-        db = session()
+        db = Session()
         yield db
     finally:
-        db.close()
+        await db.close()
