@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     postgres_db: str
 
     class Config:
-        env_file = ".env.prod"
+        env_file = ".env"
 
 
 # Saving environment variables in cache

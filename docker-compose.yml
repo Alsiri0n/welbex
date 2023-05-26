@@ -14,7 +14,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .env:/usr/src/app/welbex/.env
+      - .env:/usr/src/app/welbex/.env.prod
     depends_on:
       - postgres
     networks:
