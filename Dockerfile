@@ -1,7 +1,7 @@
 FROM python:3.11
 RUN useradd welbex
 RUN apt-get -y update
-RUN mkdir -p /usr/src/app/welbex/app/tracks
+RUN mkdir -p /usr/src/app/welbex/app/
 WORKDIR /usr/src/app/welbex
 COPY . /usr/src/app/welbex/
 RUN pip3 install poetry
