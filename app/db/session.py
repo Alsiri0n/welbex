@@ -1,4 +1,5 @@
 from sqlalchemy import URL
+
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncEngine, async_sessionmaker
 from app.core.config import get_settings
 

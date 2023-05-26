@@ -21,6 +21,5 @@ async def update_truck(*, db: AsyncSession = Depends(deps.get_db), id_: int, loc
     location = await crud.location.get(db, postcode=location_zip)
     if not location:
         raise HTTPException(status_code=404, detail="Location zip not found")
-    await crud.truck.update(db, id_=id_, location=location.id)
-    truck = await crud.truck.get(db, id_)
+    truck = await crud.truck.update(db, id_=id_, location=location.id)
     return truck

@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
-    from .cargo import CargoSchema
+    from .cargo import CargoBase
     from .truck import TruckBase
 
 
