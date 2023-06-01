@@ -11,8 +11,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Main class for run application
 
+# Main class for run application
 def init_app():
 
     cur_app = FastAPI()

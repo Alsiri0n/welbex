@@ -47,7 +47,7 @@ class CRUDTruck:
         total: list[TruckModel] = [r for r in result.scalars()]
         return total
 
-    async def get_truck_by_distance(self, db: AsyncSession, lat: float, lng: float, miles: int = 1000) -> int:
+    async def get_qnt_truck_by_distance(self, db: AsyncSession, lat: float, lng: float, miles: int = 1000) -> int:
         qnt = 0
         pickup_coord = (lat, lng)
         all_trucks = await self._get_all_trucks(db)
@@ -57,14 +57,17 @@ class CRUDTruck:
                 qnt += 1
         return qnt
 
-    async def get_distance(self, db: AsyncSession, lat: float, lng: float) -> list[TruckForInformation]:
+    async def get_truck_by_distance(self, db: AsyncSession, lat: float, lng: float, distance: int = -1) -> list[TruckForInformation]:
         cargo_coord = (lat, lng)
         all_trucks = await self._get_all_trucks(db)
         data: list[TruckForInformation] = []
         for cur_truck in all_trucks:
             cur_truck_coord = (cur_truck.location.lat, cur_truck.location.lng)
             cur_distance = int(gd(cargo_coord, cur_truck_coord).miles)
-            data.append(TruckForInformation(number=cur_truck.number, distance=cur_distance))
+            if distance > 0 and cur_distance <= distance:
+                data.append(TruckForInformation(number=cur_truck.number, distance=cur_distance))
+            elif distance == -1:
+                data.append(TruckForInformation(number=cur_truck.number, distance=cur_distance))
         return data
 
 

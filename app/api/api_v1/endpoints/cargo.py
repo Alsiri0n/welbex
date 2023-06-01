@@ -12,7 +12,7 @@ async def all_cargos(*, db: AsyncSession = Depends(deps.get_db)):
     cargos = await crud.cargo.list_cargo(db)
     cargo_with_trucks = []
     for cur_cargo in cargos:
-        qnt = await crud.truck.get_truck_by_distance(db, lat=cur_cargo.pickup.lat, lng=cur_cargo.pickup.lng, miles=450)
+        qnt = await crud.truck.get_truck_qnt_by_distance(db, lat=cur_cargo.pickup.lat, lng=cur_cargo.pickup.lng, miles=450)
         cargo_with_trucks.append(schemas.CargoWithQntTrucks(
             id=cur_cargo.id,
             weight=cur_cargo.weight,
@@ -25,14 +25,40 @@ async def all_cargos(*, db: AsyncSession = Depends(deps.get_db)):
     return cargo_with_trucks
 
 
+@router.get("/filter", response_model=list[schemas.CargoWithDistanceTruck])
+async def get_cargo_info(*, db: AsyncSession = Depends(deps.get_db), weight: int, distance: int):
+    cargos = await crud.cargo.get_filter(db, weight=weight)
+    if not cargos:
+        raise HTTPException(status_code=404, detail="Cargo not found")
+    cargo_filter = []
+    for cur_cargo in cargos:
+        information: list[schemas.TruckForInformation] = await crud.truck.get_truck_by_distance(db,
+                                                                                                    lat=cur_cargo.pickup.lat,
+                                                                                                    lng=cur_cargo.pickup.lng,
+                                                                                                    distance=distance)
+        cargo: schemas.CargoWithDistanceTruck = schemas.CargoWithDistanceTruck(
+            id=cur_cargo.id,
+            weight=cur_cargo.weight,
+            description=cur_cargo.description,
+            pickup_id=cur_cargo.pickup_id,
+            delivery_id=cur_cargo.delivery_id,
+            pickup=cur_cargo.pickup,
+            delivery=cur_cargo.delivery,
+            trucks=information
+        )
+        cargo_filter.append(cargo)
+
+    return cargo_filter
+
+
 @router.get("/{id_}", response_model=schemas.CargoWithDistanceTruck)
 async def get_cargo_info(*, db: AsyncSession = Depends(deps.get_db), id_: int):
     cargo = await crud.cargo.get(db, id_)
     if not cargo:
         raise HTTPException(status_code=404, detail="Cargo not found")
-    information: list[schemas.TruckForInformation] = await crud.truck.get_distance(db,
-                                                                                 lat=cargo.pickup.lat,
-                                                                                 lng=cargo.pickup.lng)
+    information: list[schemas.TruckForInformation] = await crud.truck.get_truck_by_distance(db,
+                                                                                            lat=cargo.pickup.lat,
+                                                                                            lng=cargo.pickup.lng)
     cargo: schemas.CargoWithDistanceTruck = schemas.CargoWithDistanceTruck(
         id=cargo.id,
         weight=cargo.weight,

@@ -52,5 +52,18 @@ class CRUDCargo:
             cargos = [r for r in result.scalars()]
         return cargos
 
+    async def get_filter(self, db: AsyncSession,  skip: int = 0, limit: int = 10, weight: int = 1001) -> list[CargoModel]:
+        cargos = []
+        q = select(CargoModel)\
+            .where(CargoModel.weight <= weight)\
+            .offset(skip)\
+            .limit(limit)\
+            .options(subqueryload(CargoModel.pickup))\
+            .options(subqueryload(CargoModel.delivery))
+        result: Result = await db.execute(q)
+        if result:
+            cargos = [r for r in result.scalars()]
+        return cargos
+
 
 cargo = CRUDCargo()

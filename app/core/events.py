@@ -14,5 +14,3 @@ def create_stop_app_handler(db: AsyncSession) -> None:
         await db.close()
         await engine.dispose()
     return stop_app
-
-
