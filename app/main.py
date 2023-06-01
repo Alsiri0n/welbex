@@ -1,7 +1,7 @@
 from fastapi import FastAPI
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.api_v1.api import api_router
-
 
 from app.core.events import create_start_app_handler, create_stop_app_handler
 

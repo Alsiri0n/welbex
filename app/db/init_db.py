@@ -1,13 +1,27 @@
 import csv
+import asyncio
+import logging
 from app.db.session import Session
 from app import crud
 from app.schemas.location import LocationSchema
+from app.models.truck import TruckModel
+
+
+async def repeater(db: Session, timeout: int = 3):
+    while True:
+        await asyncio.sleep(timeout * 60)
+        logging.info("Refill Trucks")
+        trucks: list[TruckModel] = await crud.truck.get_all_trucks(db)
+        lst_id = await crud.location.get_random_locations_id(db, 20)
+        for counter, truck in enumerate(trucks):
+            await crud.truck.update(db, id_=truck.id, location=lst_id[counter])
 
 
 # Init start data
 async def init_db(db: Session) -> None:
     await fill_location(db)
     await fill_truck(db)
+    asyncio.create_task(repeater(db, timeout=3))
 
 
 async def fill_location(db: Session):

@@ -40,7 +40,7 @@ class CRUDTruck:
             db.add_all(trucks)
             await db.commit()
 
-    async def _get_all_trucks(self, db: AsyncSession) -> list[TruckModel]:
+    async def get_all_trucks(self, db: AsyncSession) -> list[TruckModel]:
         q = select(TruckModel).options(subqueryload(TruckModel.location))
         result: Result = await db.execute(q)
 
@@ -50,7 +50,7 @@ class CRUDTruck:
     async def get_qnt_truck_by_distance(self, db: AsyncSession, lat: float, lng: float, miles: int = 1000) -> int:
         qnt = 0
         pickup_coord = (lat, lng)
-        all_trucks = await self._get_all_trucks(db)
+        all_trucks = await self.get_all_trucks(db)
         for cur_truck in all_trucks:
             truck_coord = (cur_truck.location.lat, cur_truck.location.lng)
             if gd(pickup_coord, truck_coord).miles <= miles:
@@ -59,7 +59,7 @@ class CRUDTruck:
 
     async def get_truck_by_distance(self, db: AsyncSession, lat: float, lng: float, distance: int = -1) -> list[TruckForInformation]:
         cargo_coord = (lat, lng)
-        all_trucks = await self._get_all_trucks(db)
+        all_trucks = await self.get_all_trucks(db)
         data: list[TruckForInformation] = []
         for cur_truck in all_trucks:
             cur_truck_coord = (cur_truck.location.lat, cur_truck.location.lng)
